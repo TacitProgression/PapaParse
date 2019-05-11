@@ -1190,7 +1190,7 @@ License: MIT
 					return true;
 				else if (value === 'false' || value === 'FALSE')
 					return false;
-				else if (FLOAT.test(value))
+				else if (!value.startsWith('0') && FLOAT.test(value))
 					return parseFloat(value);
 				else if (ISO_DATE.test(value))
 					return new Date(value);
