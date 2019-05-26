@@ -5,9 +5,8 @@ https://github.com/mholt/PapaParse
 License: MIT
 */
 
-const
-	accounting = require('accounting-js'),
-	_ = require('lodash')
+var accounting = require('accounting-js');
+var _ = require('lodash');
 
 (function(root, factory)
 {
@@ -1194,8 +1193,10 @@ const
 					return true;
 				else if (value === 'false' || value === 'FALSE')
 					return false;
-				else if (this.isNumber(value))
-					return this.getNumber(value);
+//				else if (!value.startsWith('0') && FLOAT.test(value))
+//					return parseFloat(value);
+				else if (isNumber(value))
+					return getNumber(value);
 				else if (ISO_DATE.test(value))
 					return new Date(value);
 				else

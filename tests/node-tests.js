@@ -5,6 +5,24 @@ var Papa = require("../papaparse.js");
 var fs = require('fs');
 var assert = require('assert');
 var longSampleRawCsv = fs.readFileSync(__dirname + '/long-sample.csv', 'utf8');
+var numberSampleRawCsv = fs.readFileSync(__dirname + '/number-sample.csv', 'utf8');
+
+function assertLongSampleDynamicParsedCorrectly(parsedCsv) {
+	assert.equal(9, parsedCsv.data.length);
+	assert.deepEqual(parsedCsv.data[0], [
+		'Bob',
+		'0000',
+		0.1,
+		1000
+	]);
+	assert.deepEqual(parsedCsv.data[7], [
+		'Bill',
+		'0008',
+		0.0008,
+		800000
+	]);
+	assert.equal(parsedCsv.errors.length, 0);
+}
 
 function assertLongSampleParsedCorrectly(parsedCsv) {
 	assert.equal(8, parsedCsv.data.length);
@@ -37,6 +55,12 @@ function assertLongSampleParsedCorrectly(parsedCsv) {
 }
 
 describe('PapaParse', function() {
+	it('dynamic parsing should detect and convert numbers', function() {
+		assertLongSampleDynamicParsedCorrectly(Papa.parse(numberSampleRawCsv, {
+			dynamicTyping: true
+		}))
+	});
+
 	it('synchronously parsed CSV should be correctly parsed', function() {
 		assertLongSampleParsedCorrectly(Papa.parse(longSampleRawCsv));
 	});
