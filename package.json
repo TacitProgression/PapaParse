@@ -53,5 +53,9 @@
 		"test-mocha-headless-chrome": "node tests/test.js --mocha-headless-chrome",
 		"test-node": "mocha tests/node-tests.js tests/test-cases.js",
 		"test": "npm run lint && npm run test-node && npm run test-mocha-headless-chrome"
+	},
+	"dependencies": {
+		"accounting-js": "^1.1.1",
+		"lodash": "^4.17.11"
 	}
 }

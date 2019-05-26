@@ -5,6 +5,10 @@ https://github.com/mholt/PapaParse
 License: MIT
 */
 
+const
+	accounting = require('accounting-js'),
+	_ = require('lodash')
+
 (function(root, factory)
 {
 	/* globals define */
@@ -1190,8 +1194,8 @@ License: MIT
 					return true;
 				else if (value === 'false' || value === 'FALSE')
 					return false;
-				else if (!value.startsWith('0') && FLOAT.test(value))
-					return parseFloat(value);
+				else if (this.isNumber(value))
+					return this.getNumber(value);
 				else if (ISO_DATE.test(value))
 					return new Date(value);
 				else
@@ -1784,6 +1788,23 @@ License: MIT
 
 	function notImplemented() {
 		throw new Error('Not implemented.');
+	}
+
+	function getNumber(val) {
+	  if (_.isNumber(val)) return val
+	  if (_.isNil(val)) return 0
+	  return accounting.unformat(val)
+	}
+
+	function isNumber(val) {
+	  if (typeof val === 'number' || _.isNumber(val)) return true
+	  if (typeof val === 'string') {
+	    val = _.trim(val.replace(/[$,]/g, ''))
+	    if (val === '0') return true
+	    if (_.startsWith(val, '0') && !_.startsWith(val, '0.')) return false
+	    return !isNaN(val) && !isNaN(parseFloat(val))
+	  }
+	  return false
 	}
 
 	/** Callback when worker thread receives a message */
